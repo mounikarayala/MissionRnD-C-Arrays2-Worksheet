@@ -15,6 +15,18 @@ There are better ways of solving the problem than a brute-force solution which i
 complexity .
 */
 
+
 int findSingleOccurenceNumber(int *A, int len) {
-	return -1;
+	if (A== nullptr || len < 0)
+		return -1;
+	int ones = 0, twos = 0;
+	int c,i;
+	for (i = 0; i < len; i++){
+		twos = twos | (ones & A[i]);
+		ones = ones ^ A[i];
+		c = ~(ones & twos);
+		ones &= c;
+		twos &= c;
+	}
+	return ones;
 }

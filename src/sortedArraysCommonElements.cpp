@@ -24,6 +24,47 @@ struct transaction {
 	char description[20];
 };
 
+int checkEqual(char *date1, char *date2){
+	int i = 0, d1 = 0, d2 = 0, m1 = 0, m2 = 0, y1 = 0, y2 = 0;
+	while (*(date1 + i) != '-' && *(date2 + i) != '-'){
+		d1 = (d1 * 10) + (date1[i] - '0');
+		d2 = (d2 * 10) + (date2[i] - '0');
+		i++;
+	}
+	i++;
+	while (*(date1 + i) != '-' && *(date2 + i) != '-'){
+		m1 = (m1 * 10) + (date1[i] - '0');
+		m2 = (m2 * 10) + (date2[i] - '0');
+		i++;
+	}
+	i++;
+	while (*(date1 + i) != '\0'&& *(date2 + i) != '\0'){
+		y1 = (y1 * 10) + (date1[i] - '0');
+		y2 = (y2 * 10) + (date2[i] - '0');
+		i++;
+	}
+	if ((y1 == y2) && (m1 == m2) && (d1 == d2))
+		return 0;
+}
+
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	if (A == NULL || B == NULL)
+		return NULL;
+	if (A == B)
+		return A;
+	if (ALen < 0 || BLen < 0)
+		return NULL;
+	int i, j, n, pos,k=0;
+	struct transaction *C = NULL;
+	for (i = 0; i < ALen; i++){
+		for (j = 0; j < BLen; j++){
+			n = checkEqual(A[i].date, B[j].date);
+			if (n == 0){
+				C = (struct transaction *)calloc(1,sizeof(struct transaction));
+				C[k] = A[i];
+				k++;
+			}
+		}
+	}
+	return C;
 }
